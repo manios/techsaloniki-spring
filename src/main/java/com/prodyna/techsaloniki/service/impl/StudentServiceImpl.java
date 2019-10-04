@@ -48,8 +48,12 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public List<StudentDTO> searchStudents(final String term) {
 
-		// FIXME do not return null
-		return null;
+		final String searchTerm = "%" + term + "%";
+
+		final List<Student> st = this.studentRepository
+				.findByNameIsLikeOrSurnameIsLike(searchTerm, searchTerm);
+
+		return this.toDTO(st);
 	}
 
 	private List<StudentDTO> toDTO(final List<Student> students) {

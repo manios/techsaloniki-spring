@@ -1,9 +1,12 @@
 package com.prodyna.techsaloniki.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +54,17 @@ public class StudentController {
 		this.studentService.removeStudent(studentId);
 
 		return new ActionStatusDTO();
+	}
+
+	@GetMapping("/search/{term}")
+	public @ResponseBody List<StudentDTO> searchStudents(@PathVariable(value = "term") final String searchTerm) {
+
+		if (StringUtils.isEmpty(searchTerm)) {
+			return new ArrayList<StudentDTO>();
+		}
+
+		return this.studentService.searchStudents(searchTerm);
+
 	}
 
 }
